@@ -1,23 +1,19 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from .rol import Rol
 
 class Profile(models.Model):
-
-    MALE = 0
-    FEMALE = 1
-
-    GENDERS = (
-        (MALE, 'MALE'),
-        (FEMALE, 'FEMALE')
-    )
+#mantener solo los campos necesarios 
+   
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
-    avatar = models.ImageField(upload_to='Avatar', null=True, blank=True)
-    phone = models.CharField(max_length=15, null=True, blank=True)
-    address = models.CharField(max_length=250, null=True, blank=True)
-    gender = models.PositiveSmallIntegerField(choices=GENDERS, null=True, blank=True)
-
+    rol = models.ForeignKey(Rol, on_delete=models.CASCADE, related_name="profile_rol") 
+    avatar = models.ImageField(upload_to='Avatar', null=True, blank=True)    
+    nombre = models.CharField(max_length=100)
+    apellido = models.CharField(max_length=100)
+    telefono = models.CharField(max_length=15, null=True, blank=True)
+    direccion = models.CharField(max_length=250, null=True, blank=True)
+    
     activo = models.BooleanField(default=True)
     creado = models.DateTimeField(auto_now_add=True)
     modificado = models.DateTimeField(auto_now=True)
